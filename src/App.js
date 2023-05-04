@@ -29,7 +29,10 @@ function App() {
       </aside>
       <main className="Main">
         <Routes>
-          <Route path="/notes/:id" Component={Note} />
+          <Route
+            path="/"
+            element={<div>Sélectionner une note pour l'éditer</div>}
+          />
         </Routes>
       </main>
     </>
