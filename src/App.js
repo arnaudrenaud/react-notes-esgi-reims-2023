@@ -33,6 +33,7 @@ function App() {
             path="/"
             element={<div>Sélectionner une note pour l'éditer</div>}
           />
+          <Route path="/notes/:id" element={<Note onSubmit={fetchNotes} />} />
         </Routes>
       </main>
     </>

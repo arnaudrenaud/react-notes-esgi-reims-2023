@@ -3,7 +3,7 @@ import { useParams } from "react-router";
 
 import "./Note.css";
 
-const Note = () => {
+const Note = ({ onSubmit }) => {
   const { id } = useParams();
   const [note, setNote] = useState(null);
 
@@ -23,6 +23,7 @@ const Note = () => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(note),
     });
+    onSubmit();
   };
 
   return (
