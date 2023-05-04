@@ -6,11 +6,13 @@ import Note from "./components/Note/Note";
 
 function App() {
   const [notes, setNotes] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   const fetchNotes = async () => {
     const response = await fetch("/notes");
     const result = await response.json();
     setNotes(result);
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -20,12 +22,16 @@ function App() {
   return (
     <>
       <aside className="Side">
-        {notes &&
+        {isLoading ? (
+          <div className="Loading">Chargement…</div>
+        ) : (
+          notes &&
           notes.map((note) => (
             <Link key={note.id} to={`/notes/${note.id}`} className="Note-link">
               {note.title}
             </Link>
-          ))}
+          ))
+        )}
       </aside>
       <main className="Main">
         <Routes>
