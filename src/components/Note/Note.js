@@ -17,8 +17,22 @@ const Note = () => {
     fetchNote();
   }, [id, fetchNote]);
 
+  const updateNote = async () => {
+    await fetch(`/notes/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(note),
+    });
+  };
+
   return (
-    <form className="Form">
+    <form
+      className="Form"
+      onSubmit={(event) => {
+        event.preventDefault();
+        updateNote();
+      }}
+    >
       <input
         className="Note-editable Note-title"
         type="text"

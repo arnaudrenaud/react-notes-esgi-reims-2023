@@ -22,7 +22,7 @@ function App() {
       <aside className="Side">
         {notes &&
           notes.map((note) => (
-            <Link to={`/notes/${note.id}`} className="Note-link">
+            <Link key={note.id} to={`/notes/${note.id}`} className="Note-link">
               {note.title}
             </Link>
           ))}
