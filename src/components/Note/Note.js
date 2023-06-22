@@ -6,6 +6,7 @@ import "./Note.css";
 const Note = ({ onSubmit }) => {
   const { id } = useParams();
   const [note, setNote] = useState(null);
+  const [isSaved, setIsSaved] = useState(false);
 
   const fetchNote = useCallback(async () => {
     const response = await fetch(`/notes/${id}`);
@@ -14,6 +15,7 @@ const Note = ({ onSubmit }) => {
   }, [id]);
 
   useEffect(() => {
+    setIsSaved(false);
     fetchNote();
   }, [id, fetchNote]);
 
@@ -24,6 +26,7 @@ const Note = ({ onSubmit }) => {
       body: JSON.stringify(note),
     });
     onSubmit();
+    setIsSaved(true);
   };
 
   return (
@@ -40,6 +43,7 @@ const Note = ({ onSubmit }) => {
         value={note ? note.title : ""}
         onChange={(event) => {
           setNote({ ...note, title: event.target.value });
+          setIsSaved(false);
         }}
       />
       <textarea
@@ -47,10 +51,12 @@ const Note = ({ onSubmit }) => {
         value={note ? note.content : ""}
         onChange={(event) => {
           setNote({ ...note, content: event.target.value });
+          setIsSaved(false);
         }}
       />
-      <div className="Note-actions ">
+      <div className="Note-actions">
         <button className="Button">Enregistrer</button>
+        {isSaved && "✓ Enregistré"}
       </div>
     </form>
   );

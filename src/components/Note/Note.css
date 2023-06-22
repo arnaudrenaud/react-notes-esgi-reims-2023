@@ -30,7 +30,11 @@
 }
 
 .Note-actions {
+  font-size: 14px;
   padding: 16px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
 }
 
 .Button {
