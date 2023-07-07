@@ -22,9 +22,16 @@
 }
 
 .Note-link {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
   padding: 16px;
   color: inherit;
   text-decoration: inherit;
   font-weight: bold;
+}
+
+.Note-link-lastUpdatedAt {
+  font-size: 10px;
+  color: gray;
 }

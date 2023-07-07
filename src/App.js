@@ -34,6 +34,9 @@ function App() {
           sortedNotes.map((note) => (
             <Link key={note.id} to={`/notes/${note.id}`} className="Note-link">
               {note.title}
+              <div className="Note-link-lastUpdatedAt">
+                {new Date(note.lastUpdatedAt).toLocaleString()}
+              </div>
             </Link>
           ))
         )}
