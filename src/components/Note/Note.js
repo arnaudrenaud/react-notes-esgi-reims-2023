@@ -8,6 +8,7 @@ const Note = ({ onSubmit }) => {
   const { id } = useParams();
   const [note, setNote] = useState(null);
   const [isSaved, setIsSaved] = useState(false);
+  const [savingInProgress, setSavingInProgress] = useState(false);
 
   const fetchNote = useCallback(async () => {
     const response = await fetch(`/notes/${id}`);
@@ -21,13 +22,15 @@ const Note = ({ onSubmit }) => {
   }, [id, fetchNote]);
 
   const updateNote = async () => {
+    setSavingInProgress(true);
     await fetch(`/notes/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(note),
     });
-    onSubmit();
+    setSavingInProgress(false);
     setIsSaved(true);
+    onSubmit();
   };
 
   useDebouncedEffect(updateNote, [note], 1000);
@@ -59,7 +62,7 @@ const Note = ({ onSubmit }) => {
       />
       <div className="Note-actions">
         <button className="Button">Enregistrer</button>
-        {isSaved && "✓ Enregistré"}
+        {savingInProgress ? "Enregistrement…" : isSaved && "✓ Enregistré"}
       </div>
     </form>
   );
