@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router";
 
 import "./Note.css";
+import { useDebouncedEffect } from "../../hooks";
 
 const Note = ({ onSubmit }) => {
   const { id } = useParams();
@@ -28,6 +29,8 @@ const Note = ({ onSubmit }) => {
     onSubmit();
     setIsSaved(true);
   };
+
+  useDebouncedEffect(updateNote, [note], 1000);
 
   return (
     <form
