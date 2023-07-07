@@ -31,7 +31,11 @@
   font-weight: bold;
 }
 
+.Note-link.active {
+  background-color: darkslategrey;
+}
+
 .Note-link-lastUpdatedAt {
   font-size: 10px;
-  color: gray;
+  color: darkgrey;
 }

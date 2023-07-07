@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, Route, Routes } from "react-router-dom";
+import { NavLink, Route, Routes } from "react-router-dom";
 
 import "./App.css";
 import Note from "./components/Note/Note";
@@ -32,12 +32,16 @@ function App() {
           <div className="Loading">Chargement…</div>
         ) : (
           sortedNotes.map((note) => (
-            <Link key={note.id} to={`/notes/${note.id}`} className="Note-link">
+            <NavLink
+              key={note.id}
+              to={`/notes/${note.id}`}
+              className="Note-link"
+            >
               {note.title}
               <div className="Note-link-lastUpdatedAt">
                 {new Date(note.lastUpdatedAt).toLocaleString()}
               </div>
-            </Link>
+            </NavLink>
           ))
         )}
       </aside>
