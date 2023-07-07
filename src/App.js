@@ -19,6 +19,19 @@ function App() {
     fetchNotes();
   }, []);
 
+  const createNote = async () => {
+    await fetch(`/notes`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        title: "Nouvelle note",
+        content: "",
+        lastUpdatedAt: new Date(),
+      }),
+    });
+    fetchNotes();
+  };
+
   const sortedNotes = notes
     ? notes.sort((noteA, noteB) => {
         return noteB.lastUpdatedAt.localeCompare(noteA.lastUpdatedAt);
@@ -31,18 +44,23 @@ function App() {
         {isLoading ? (
           <div className="Loading">Chargement…</div>
         ) : (
-          sortedNotes.map((note) => (
-            <NavLink
-              key={note.id}
-              to={`/notes/${note.id}`}
-              className="Note-link"
-            >
-              {note.title}
-              <div className="Note-link-lastUpdatedAt">
-                {new Date(note.lastUpdatedAt).toLocaleString()}
-              </div>
-            </NavLink>
-          ))
+          <>
+            <button className="Button Button-create-note" onClick={createNote}>
+              +
+            </button>
+            {sortedNotes.map((note) => (
+              <NavLink
+                key={note.id}
+                to={`/notes/${note.id}`}
+                className="Note-link"
+              >
+                {note.title}
+                <div className="Note-link-lastUpdatedAt">
+                  {new Date(note.lastUpdatedAt).toLocaleString()}
+                </div>
+              </NavLink>
+            ))}
+          </>
         )}
       </aside>
       <main className="Main">

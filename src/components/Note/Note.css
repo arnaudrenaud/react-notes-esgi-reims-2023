@@ -39,6 +39,9 @@
 
 .Button {
   padding: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: rgb(29, 35, 39);
   border: none;
   color: inherit;
