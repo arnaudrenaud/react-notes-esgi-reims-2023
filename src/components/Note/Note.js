@@ -8,6 +8,7 @@ const Note = ({ onSubmit }) => {
   const { id } = useParams();
   const [note, setNote] = useState(null);
   const [isSaved, setIsSaved] = useState(false);
+  const [hasChanged, setHasChanged] = useState(false);
   const [savingInProgress, setSavingInProgress] = useState(false);
 
   const fetchNote = useCallback(async () => {
@@ -22,20 +23,26 @@ const Note = ({ onSubmit }) => {
   }, [id, fetchNote]);
 
   const updateNote = async () => {
-    setSavingInProgress(true);
-    await fetch(`/notes/${id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        ...note,
-        lastUpdatedAt: new Date(),
-      }),
-    });
-    setSavingInProgress(false);
-    setIsSaved(true);
-    onSubmit();
+    if (hasChanged) {
+      setSavingInProgress(true);
+      await fetch(`/notes/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...note,
+          lastUpdatedAt: new Date(),
+        }),
+      });
+      setSavingInProgress(false);
+      setIsSaved(true);
+      onSubmit();
+    }
   };
 
+  // When switching from one note to another, do not save
+  useEffect(() => {
+    setHasChanged(false);
+  }, [id]);
   useDebouncedEffect(updateNote, [note], 1000);
 
   return (
@@ -44,6 +51,7 @@ const Note = ({ onSubmit }) => {
       onSubmit={(event) => {
         event.preventDefault();
         updateNote();
+        setHasChanged(true);
       }}
     >
       <input
@@ -53,6 +61,7 @@ const Note = ({ onSubmit }) => {
         onChange={(event) => {
           setNote({ ...note, title: event.target.value });
           setIsSaved(false);
+          setHasChanged(true);
         }}
       />
       <textarea
@@ -61,6 +70,7 @@ const Note = ({ onSubmit }) => {
         onChange={(event) => {
           setNote({ ...note, content: event.target.value });
           setIsSaved(false);
+          setHasChanged(true);
         }}
       />
       <div className="Note-actions">
