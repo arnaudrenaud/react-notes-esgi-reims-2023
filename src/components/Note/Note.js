@@ -26,7 +26,10 @@ const Note = ({ onSubmit }) => {
     await fetch(`/notes/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(note),
+      body: JSON.stringify({
+        ...note,
+        lastUpdatedAt: new Date(),
+      }),
     });
     setSavingInProgress(false);
     setIsSaved(true);

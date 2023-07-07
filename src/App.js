@@ -19,14 +19,19 @@ function App() {
     fetchNotes();
   }, []);
 
+  const sortedNotes = notes
+    ? notes.sort((noteA, noteB) => {
+        return noteB.lastUpdatedAt.localeCompare(noteA.lastUpdatedAt);
+      })
+    : [];
+
   return (
     <>
       <aside className="Side">
         {isLoading ? (
           <div className="Loading">Chargement…</div>
         ) : (
-          notes &&
-          notes.map((note) => (
+          sortedNotes.map((note) => (
             <Link key={note.id} to={`/notes/${note.id}`} className="Note-link">
               {note.title}
             </Link>
